@@ -7,6 +7,7 @@ use PDO;
 class Db
 {
     protected $connection;
+    protected $currentStatement;
     protected $currentSql;
     protected $protoSql;
 
@@ -53,7 +54,12 @@ class Db
     {
         return $this->currentSql;
     }
-
+	
+	public function getStatement()
+    {
+        return $this->currentStatement;
+    }
+    
     public function prepare($queryString, $object = '\stdClass', array $extra = null)
     {
         $statement = $this->connection->prepare($queryString);
