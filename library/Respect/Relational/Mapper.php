@@ -221,7 +221,9 @@ class Mapper extends AbstractMapper implements
         try {
             foreach ($this->changed as $entity) {
                 $this->flushSingle($entity);
-				$affectedRows = $affectedRows + $this->db->getStatement()->rowCount();
+		if ($this->db->getStatement() instanceof PDOStatement){
+			$affectedRows = $affectedRows + $this->db->getStatement()->rowCount();	
+		}
             }
         } catch (Exception $e) {
             $conn->rollback();
@@ -229,9 +231,9 @@ class Mapper extends AbstractMapper implements
         }
 		
         $this->reset();        
-		$conn->commit();
+	$conn->commit();
 		
-		return $affectedRows;
+	return $affectedRows;
     }
 
     protected function checkNewIdentity($entity, Collection $collection)
