@@ -214,20 +214,24 @@ class Mapper extends AbstractMapper implements
 
     public function flush()
     {
+		$affectedRows = 0;
         $conn = $this->db->getConnection();
         $conn->beginTransaction();
 
         try {
             foreach ($this->changed as $entity) {
                 $this->flushSingle($entity);
+				$affectedRows = $affectedRows + $this->db->getStatement()->rowCount();
             }
         } catch (Exception $e) {
             $conn->rollback();
             throw $e;
         }
-
-        $this->reset();
-        $conn->commit();
+		
+        $this->reset();        
+		$conn->commit();
+		
+		return $affectedRows;
     }
 
     protected function checkNewIdentity($entity, Collection $collection)
