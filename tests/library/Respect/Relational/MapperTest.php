@@ -432,6 +432,19 @@ class MapperTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($total, $pre - 1);
     }
 
+    public function testShouldReturnTheNumberOfAffectedRowsWhenRemove() {
+        $mapper = $this->mapper;
+        $invalid = new \StdClass;
+        $invalid->id = null;
+        $c7 = $mapper->comment[7]->fetch();
+        $c8 = $mapper->comment[8]->fetch();
+        $mapper->comment->remove($invalid);
+        $mapper->comment->remove($c7);
+        $mapper->comment->remove($c8);
+        $rows = $mapper->flush();
+        $this->assertEquals($rows, 2);
+    }
+
     public function test_fetching_entity_typed()
     {
         $mapper = $this->mapper;
