@@ -95,7 +95,8 @@ class Db
         $statement = $this->prepare((string) $this->currentSql, $object, $extra);
         $statement->execute($this->currentSql->getParams());
         $this->currentSql = clone $this->protoSql;
-
+	$this->currentStatement = $statement;
+		
         return $statement;
     }
 
