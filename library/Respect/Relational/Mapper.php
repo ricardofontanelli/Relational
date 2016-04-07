@@ -226,6 +226,7 @@ class Mapper extends AbstractMapper implements
 		}
             }
         } catch (Exception $e) {
+            $this->reset();
             $conn->rollback();
             throw $e;
         }
