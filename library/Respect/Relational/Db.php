@@ -107,4 +107,12 @@ class Db
 
         return $result;
     }
+    
+    /*
+    Reset the currentSql after each execStatement to prevent errors if some operation in chain fail
+    */
+    public function resetCurrentSql()
+    {
+    	$this->currentSql = new Sql;
+    }
 }
