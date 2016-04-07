@@ -222,7 +222,7 @@ class Mapper extends AbstractMapper implements
             foreach ($this->changed as $entity) {
                 $this->flushSingle($entity);
 		if ($this->db->getStatement() instanceof PDOStatement){
-			$affectedRows = $affectedRows + $this->db->getStatement()->rowCount();	
+		    $affectedRows += $this->db->getStatement()->rowCount();	
 		}
             }
         } catch (Exception $e) {
@@ -235,7 +235,13 @@ class Mapper extends AbstractMapper implements
 		
 	return $affectedRows;
     }
-
+    
+    public function reset()
+    {
+        parent::reset();
+	$this->getDb()->resetCurrentSql();
+    }
+    
     protected function checkNewIdentity($entity, Collection $collection)
     {
         $identity = null;
