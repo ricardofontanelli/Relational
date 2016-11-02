@@ -214,35 +214,34 @@ class Mapper extends AbstractMapper implements
 
     public function flush()
     {
-		$affectedRows = 0;
+        $affectedRows = 0;
         $conn = $this->db->getConnection();
         $conn->beginTransaction();
 
         try {
             foreach ($this->changed as $entity) {
                 $this->flushSingle($entity);
-		if ($this->db->getStatement() instanceof PDOStatement){
-		    $affectedRows += $this->db->getStatement()->rowCount();	
-		}
+                if ($this->db->getStatement() instanceof PDOStatement) {
+                    $affectedRows += $this->db->getStatement()->rowCount();
+                }
             }
         } catch (Exception $e) {
             $this->reset();
             $conn->rollback();
             throw $e;
         }
-		
-        $this->reset();        
-	$conn->commit();
-		
-	return $affectedRows;
+
+        $this->reset();
+        $conn->commit();
+        return $affectedRows;
     }
     
     public function reset()
     {
         parent::reset();
-	$this->getDb()->resetCurrentSql();
+        $this->getDb()->resetCurrentSql();
     }
-    
+
     protected function checkNewIdentity($entity, Collection $collection)
     {
         $identity = null;

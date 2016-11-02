@@ -54,12 +54,12 @@ class Db
     {
         return $this->currentSql;
     }
-	
-	public function getStatement()
+
+    public function getStatement()
     {
         return $this->currentStatement;
     }
-    
+
     public function prepare($queryString, $object = '\stdClass', array $extra = null)
     {
         $statement = $this->connection->prepare($queryString);
@@ -95,8 +95,8 @@ class Db
         $statement = $this->prepare((string) $this->currentSql, $object, $extra);
         $statement->execute($this->currentSql->getParams());
         $this->currentSql = clone $this->protoSql;
-	$this->currentStatement = $statement;
-		
+        $this->currentStatement = $statement;
+
         return $statement;
     }
 
@@ -107,12 +107,9 @@ class Db
 
         return $result;
     }
-    
-    /*
-    Reset the currentSql after each execStatement to prevent errors if some operation in chain fail
-    */
+
     public function resetCurrentSql()
     {
-    	$this->currentSql = new Sql;
+        $this->currentSql = new Sql();
     }
 }
